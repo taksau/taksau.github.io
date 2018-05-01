@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-01T12:41:06+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">没有银弹</title><link href="http://localhost:4000/thoughts/No-silver-bullet.html" rel="alternate" type="text/html" title="没有银弹" /><published>2018-04-30T00:00:00+08:00</published><updated>2018-04-30T00:00:00+08:00</updated><id>http://localhost:4000/thoughts/No-silver-bullet</id><content type="html" xml:base="http://localhost:4000/thoughts/No-silver-bullet.html">&lt;h1 id=&quot;no-silver-bullet&quot;&gt;No silver bullet.&lt;/h1&gt;</content><author><name>Metapunk</name></author><category term="thoughts" /><summary type="html">No silver bullet.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/cowboy-1.jpg" /></entry><entry><title type="html">深度学习预备知识(Part 1)</title><link href="http://localhost:4000/notes/Deeplearning.html" rel="alternate" type="text/html" title="深度学习预备知识(Part 1)" /><published>2018-04-29T00:00:00+08:00</published><updated>2018-04-29T00:00:00+08:00</updated><id>http://localhost:4000/notes/Deeplearning</id><content type="html" xml:base="http://localhost:4000/notes/Deeplearning.html">&lt;h2 id=&quot;线性代数&quot;&gt;线性代数&lt;/h2&gt;
+
+&lt;h4 id=&quot;向量的范数norm&quot;&gt;向量的&lt;strong&gt;范数&lt;/strong&gt;(norm)&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;||x||_{p}=(\sum_{i}|x|^{p})^\frac{1}{p} \\
+其中p\in \mathbb{R},p\ge 1&lt;/script&gt;
+
+&lt;p&gt;$L^{1}$范数经常作为表示非零元素数目的替代函数&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;最大范数$L^{\infty}$：&lt;/strong&gt;表示向量中具有最大幅值的元素的绝对值
+&lt;script type=&quot;math/tex&quot;&gt;||x||_{\infty}=\max_{i}|x_{i}|&lt;/script&gt;
+ 在深度学习中，会衡量矩阵的大小，最常用&lt;strong&gt;Frobenius范数&lt;/strong&gt; (Frobenius norm)
+&lt;script type=&quot;math/tex&quot;&gt;||A||_{F}=\sqrt{\sum_{i,j}A^{2}_{i,j}}&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;特殊类型的矩阵和向量&quot;&gt;特殊类型的矩阵和向量&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;对角矩阵&lt;/strong&gt;(diagonal matrix)只在主对角线上含有非零元素，其他位置都是零。用diag(v)表示。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;对称矩阵&lt;/strong&gt;(symmetric matrix)是转置和自己相等的矩阵。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;正交矩阵&lt;/strong&gt;(orthogonal matrix)指行向量和列向量是分别标准正交的方阵，即
+&lt;script type=&quot;math/tex&quot;&gt;A^{\top}A=AA^{\top}=I \\
+ A^{-1}=A^{\top}&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;特征分解&quot;&gt;特征分解&lt;/h3&gt;
+
+&lt;p&gt;方阵$A$的&lt;strong&gt;特征向量&lt;/strong&gt; (eigenvector)是指与$A$相乘后相当于对该向量进行缩放的非零向量&lt;strong&gt;v&lt;/strong&gt;：
+&lt;script type=&quot;math/tex&quot;&gt;\mathit{Av=\lambda v}&lt;/script&gt;
+其中标量$\mathit{\lambda}$称为这个特征向量对应的&lt;strong&gt;特征值&lt;/strong&gt;(eigenvalue)。&lt;/p&gt;
+
+&lt;p&gt;假设矩阵$A$ 有$n$ 个线性无关的特征向量${v^{(1)},\cdots,v^{(n)}}$，对应着特征值${\lambda_{1},\cdots,\lambda_{n}}$。 将特征向量连接成一个矩阵，使得每一列是一个特征向量：$V=[v^{(1)},\cdots,v^{(n)}]$ 。类似地，将特征值连接成一个向量$\lambda=[\lambda_{1},\cdots,\lambda_{n}]^{\top}$。因此$A$的&lt;strong&gt;特征分解&lt;/strong&gt;(eigendecomposition)可以记作：
+&lt;script type=&quot;math/tex&quot;&gt;A=Vdiag(\lambda)V^{-1}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;每个实对称矩阵都可以分解成实特征向量和实特征值：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;A=Q\Lambda Q^{\top}&lt;/script&gt;
+
+&lt;p&gt;其中$Q$是$A$的特征向量组成的正交矩阵，$\Lambda$是对角矩阵。特征值$\Lambda_{i,i}$对应的特征向量是矩阵$Q$的第$i$列，记作$Q_{:,i}$。&lt;/p&gt;
+
+&lt;p&gt;如果两个或多个特征向量拥有相同的特征值，那么在由这些特征向量产生的生成子空间中，任意一组正交向量都是该特征值对应的特征向量。因此，我们可以等价地从这些特征向量中构成$Q$作为替代。按照惯例，我们通常按降序排列$\Lambda$的元素。在该约定下，特征分解唯一，当且仅当所有的特征值都是唯一的。&lt;/p&gt;
+
+&lt;p&gt;所有特征值都是正数的矩阵称为&lt;strong&gt;正定&lt;/strong&gt;(positive definite)；所有特征值都是非负数的矩阵称为&lt;strong&gt;半正定&lt;/strong&gt;(positive semidefinite)。同样地，所有特征值都是负数的&lt;strong&gt;负定&lt;/strong&gt;(negative definite)；所有特征值都是非正数的矩阵称为&lt;strong&gt;半正定&lt;/strong&gt;(negative semidefinite)。半正定矩阵受到关注是因为它们保证$\forall x,x^{\top}Ax\ge0$。此外，正定矩阵还保证$x^{\top}Ax=0\Rightarrow x=0$。&lt;/p&gt;
+
+&lt;h3 id=&quot;奇异值分解&quot;&gt;奇异值分解&lt;/h3&gt;
+
+&lt;p&gt;将矩阵分解为&lt;strong&gt;奇异向量&lt;/strong&gt;(singular vector)和&lt;strong&gt;奇异值&lt;/strong&gt;(singular value)。通过奇异值分解，我们会得到一些特征分解相同类型的信息。每个实数矩阵都有一个奇异值分解，但不一定都有特征分解。&lt;/p&gt;
+
+&lt;p&gt;将矩阵$A$分解成三个矩阵的乘积:
+&lt;script type=&quot;math/tex&quot;&gt;A=UDV^{\top}&lt;/script&gt;
+假设$A$是一个$m\times n$的矩阵，那么$U$是一个$m\times m$的矩阵，$D$是一个$m\times n$的矩阵，$V$是一个$n\times n$的矩阵。&lt;/p&gt;
+
+&lt;p&gt;矩阵$U$和$V$都定义为正交矩阵，而矩阵$D$定义为对角矩阵。矩阵$D$不一定是方阵。&lt;/p&gt;
+
+&lt;p&gt;对角矩阵$D$对角线上的元素称为矩阵$A$的&lt;strong&gt;奇异值&lt;/strong&gt;(singular value)。矩阵$U$列向量称为&lt;strong&gt;左奇异向量&lt;/strong&gt;(left singular vector)，矩阵$V$的列向量称&lt;strong&gt;右奇异值&lt;/strong&gt;(right singular vector)。&lt;/p&gt;
+
+&lt;p&gt;我们可以用与&lt;strong&gt;A&lt;/strong&gt;相关的特征分解去解释&lt;strong&gt;A&lt;/strong&gt;的奇异值分解。$A$的&lt;strong&gt;左奇异向量&lt;/strong&gt;(left singular vector)是$AA^{\top}$的特征向量。$A$的&lt;strong&gt;右奇异向量&lt;/strong&gt;(right singular vector)是$A^{\top}A$的特征向量。$A$的非零奇异值是$A^{\top}A$特征值的平方根，同时也是$AA^{\top}$特征值的平方根。&lt;/p&gt;
+
+&lt;h3 id=&quot;moore-penrose-伪逆&quot;&gt;Moore-Penrose 伪逆&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;A^{+}=\lim_{a\to 0}(A^{\top}A+\alpha I)^{-1}A^{-1}&lt;/script&gt;
+
+&lt;p&gt;计算伪逆的实际算法没有基于这个定义，而是使用下面的公式
+&lt;script type=&quot;math/tex&quot;&gt;A^{+}=VD^{+}U^{\top}&lt;/script&gt;
+对角矩阵$D$的伪逆$D^{+}$是其非零元素取倒数之后再转置得到的。&lt;/p&gt;
+
+&lt;p&gt;当矩阵$A$的列数多于行数时，使用伪逆求解线性方程是众多可能解法中的一种。特别地，$x=A^{+}y$是方程所有可行解中欧几里得范数$\Arrowvert x \Arrowvert_{2}$最小的一个。&lt;/p&gt;
+
+&lt;p&gt;当矩阵$A$的行数多于列数时，可能没有解。在这种情况下，通过伪逆得到的$x$使得$Ax$和$y$的欧几里得距离$\Arrowvert Ax-y \Arrowvert_{2}$最小。&lt;/p&gt;
+
+&lt;h3 id=&quot;迹运算&quot;&gt;迹运算&lt;/h3&gt;
+
+&lt;p&gt;迹运算返回的是矩阵对角元素的和：&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;Tr(A)=\sum_{i}A_{i,i}.&lt;/script&gt;
+Frobenius范数：
+&lt;script type=&quot;math/tex&quot;&gt;\Arrowvert A \Arrowvert_{F}=\sqrt{Tr(AA^{\top})}&lt;/script&gt;
+性质：
+&lt;script type=&quot;math/tex&quot;&gt;Tr(AB)=Tr(BA)&lt;/script&gt;
+标量在迹运算后仍然是它自己：$a=Tr(a)$。&lt;/p&gt;
+
+&lt;h2 id=&quot;概率与信息论&quot;&gt;概率与信息论&lt;/h2&gt;
+
+&lt;h3 id=&quot;高斯分布&quot;&gt;高斯分布&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{N}(x;\mu,\sigma^{2})=\sqrt{\frac{1}{2\pi \sigma^{2}}}exp(-\frac{1}{2\sigma^{2}}(x-\mu)^{2})&lt;/script&gt;
+
+&lt;h3 id=&quot;常用函数的有用性质&quot;&gt;常用函数的有用性质&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$logistic$ $sigmoid$ 函数：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sigma(x)=\frac{1}{1+exp(-x)}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$softplus$函数：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\zeta(x)=log(1+exp(x))&lt;/script&gt;
+
+&lt;h3 id=&quot;信息论&quot;&gt;信息论&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;KL散度&lt;/strong&gt;对于同一随机变量x有两个单独的概率分布$P(x)$和$Q(x)$，可以使用&lt;strong&gt;KL散度&lt;/strong&gt;(Kullback-Leibler divergence)来衡量这两个分布的差异：
+&lt;script type=&quot;math/tex&quot;&gt;D_{KL}(P||Q)=\mathbb{E}_{x\sim P}[log\frac{P(x)}{Q(x)}]=\mathbb{E}_{x\sim P}[logP(x)-logQ(x)]&lt;/script&gt;
+&lt;strong&gt;交叉熵&lt;/strong&gt;(cross-entropy)：
+&lt;script type=&quot;math/tex&quot;&gt;H(P,Q)=H(P)+D_{KL}(P||Q)=-\mathbb{E}_{x\sim P}logQ(x)&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;数值计算&quot;&gt;数值计算&lt;/h2&gt;
+
+&lt;h3 id=&quot;病态条件&quot;&gt;病态条件&lt;/h3&gt;
+
+&lt;p&gt;条件数指的是函数相对于输入的微小变化而变化的快慢程度。&lt;/p&gt;
+
+&lt;p&gt;考虑函数$f(x)=A^{-1}x$。当$A\in \mathbb{R}^{n\times n}$具有特征值分解时，其条件数为
+&lt;script type=&quot;math/tex&quot;&gt;\max_{i,j}|\frac{\lambda_{i}}{\lambda_{j}}|&lt;/script&gt;
+当该数很大时，矩阵求逆对输入的误差特别敏感。&lt;/p&gt;
+
+&lt;h3 id=&quot;基于梯度的优化方法&quot;&gt;基于梯度的优化方法&lt;/h3&gt;
+
+&lt;p&gt;我们把要最小化或最大化的函数称为&lt;strong&gt;目标函数&lt;/strong&gt;(objective function)或&lt;strong&gt;准则&lt;/strong&gt;(criterion)。当我们对其进行最小化时，也把它称为&lt;strong&gt;代价函数&lt;/strong&gt;(cost function)、&lt;strong&gt;损失函数&lt;/strong&gt;(loss function)或&lt;strong&gt;误差函数&lt;/strong&gt;(error function)。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;最速下降法&lt;/strong&gt;(method of steepest descent)或&lt;strong&gt;梯度下降&lt;/strong&gt;(gradient descent)。最速下降建议新的点为
+&lt;script type=&quot;math/tex&quot;&gt;x^{\prime}=x-\epsilon \nabla_{x}f(x)&lt;/script&gt;
+其中$\epsilon$为&lt;strong&gt;学习率&lt;/strong&gt;(learning rate)，是一个确定步长大小的正标量。&lt;/p&gt;
+
+&lt;p&gt;$Hessian$矩阵：
+&lt;script type=&quot;math/tex&quot;&gt;H(f)(x)_{i,j}=\frac{\partial ^{2}}{\partial x_{i} \partial x_{j}}f(x)&lt;/script&gt;
+&lt;strong&gt;最优步长&lt;/strong&gt;：
+&lt;script type=&quot;math/tex&quot;&gt;\epsilon^{*}=\frac{g^{\top}g}{g^{\top}Hg}&lt;/script&gt;
+最坏的情况下，$g$与$H$最大特征值$\lambda _{max}$对应的特征向量对齐，则最优步长是$\frac{1}{\lambda _{max}}$。当我们要最小化的函数能用二次函数很好地近似的情况下，$Hessian$的特征值决定了学习率的量级。&lt;/p&gt;
+
+&lt;p&gt;在深度学习的背景下，限制函数满足$Lipschitz$&lt;strong&gt;连续&lt;/strong&gt;(Lipschitz continuous)或其导数$Lipschitz$连续可以获得一些保证。$Lipschitz$连续函数的变化速度以$Lipschitz$&lt;strong&gt;常数&lt;/strong&gt;(Lipschitz constant) $\mathcal{L}$为界：
+&lt;script type=&quot;math/tex&quot;&gt;\forall x,\forall y,|f(x)-f(y)|\le \mathcal{L}||x-y||_{2}&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;约束优化&quot;&gt;约束优化&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Karush-Kuhn-Tucker&lt;/strong&gt;(KKT)方法是针对约束优化非常通用的解决方案。为介绍KKT方法，我们引入一个称为&lt;strong&gt;广义Lagrangian&lt;/strong&gt;(generalized Lagrangian)。
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{S}=\{ x|\forall i,g^{(i)}(x)=0\ and \ \forall j,h^{(j)}(x)\le0\}&lt;/script&gt;
+我们为每个约束引入新的变量$\lambda_{i}$ 和$\alpha_{j}$，这些新变量被称为KKT乘子。
+&lt;script type=&quot;math/tex&quot;&gt;L(x,\lambda,\alpha)=f(x)+\sum_{i}\lambda_{i}g^{(i)}(x)+\sum_{j}\alpha_{j}h^{(j)}(x)&lt;/script&gt;&lt;/p&gt;</content><author><name>Metapunk</name></author><category term="notes" /><summary type="html">线性代数</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/motoko-1.jpg" /></entry></feed>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>Metapunk</title>
+		<description>a place where I write down my notes and thoughts.</description>
+		<link></link>
+		<atom:link href="/rss-feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>没有银弹</title>
+				
+					<dc:creator>Metapunk</dc:creator>
+				
+				
+					<description>&lt;h1 id=&quot;no-silver-bullet&quot;&gt;No silver bullet.&lt;/h1&gt;
+</description>
+				
+				<pubDate>Mon, 30 Apr 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/thoughts/No-silver-bullet.html</link>
+				<guid isPermaLink="true">http://localhost:4000/thoughts/No-silver-bullet.html</guid>
+			</item>
+		
+			<item>
+				<title>深度学习预备知识(Part 1)</title>
+				
+					<dc:creator>Metapunk</dc:creator>
+				
+				
+					<description>&lt;h2 id=&quot;线性代数&quot;&gt;线性代数&lt;/h2&gt;
+
+</description>
+				
+				<pubDate>Sun, 29 Apr 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/notes/Deeplearning.html</link>
+				<guid isPermaLink="true">http://localhost:4000/notes/Deeplearning.html</guid>
+			</item>
+		
+	</channel>
+</rss>
