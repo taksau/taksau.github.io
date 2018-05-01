@@ -1,5 +1,5 @@
 # taksau.github.io
-注意事项：
+* 注意事项：
 1. 凡是要post一篇blog或者修改一篇blog,首先要在本地跑一遍jekyll生成了静态site再git push上来才有效。
 2. 为了支持数学公式，需要在_includes/head.html的<head></head>之间添加如下代码：
 ```html
