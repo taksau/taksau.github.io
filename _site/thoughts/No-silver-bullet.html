@@ -59,6 +59,33 @@
 {"datePublished":"2018-04-30T00:00:00+08:00","image":"http://localhost:4000/cowboy-1.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/thoughts/No-silver-bullet.html"},"url":"http://localhost:4000/thoughts/No-silver-bullet.html","author":{"@type":"Person","name":"Metapunk"},"description":"No silver bullet.","@type":"BlogPosting","headline":"没有银弹","dateModified":"2018-04-30T00:00:00+08:00","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
 
 </head>
 

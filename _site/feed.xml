@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-01T12:41:06+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">没有银弹</title><link href="http://localhost:4000/thoughts/No-silver-bullet.html" rel="alternate" type="text/html" title="没有银弹" /><published>2018-04-30T00:00:00+08:00</published><updated>2018-04-30T00:00:00+08:00</updated><id>http://localhost:4000/thoughts/No-silver-bullet</id><content type="html" xml:base="http://localhost:4000/thoughts/No-silver-bullet.html">&lt;h1 id=&quot;no-silver-bullet&quot;&gt;No silver bullet.&lt;/h1&gt;</content><author><name>Metapunk</name></author><category term="thoughts" /><summary type="html">No silver bullet.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/cowboy-1.jpg" /></entry><entry><title type="html">深度学习预备知识(Part 1)</title><link href="http://localhost:4000/notes/Deeplearning.html" rel="alternate" type="text/html" title="深度学习预备知识(Part 1)" /><published>2018-04-29T00:00:00+08:00</published><updated>2018-04-29T00:00:00+08:00</updated><id>http://localhost:4000/notes/Deeplearning</id><content type="html" xml:base="http://localhost:4000/notes/Deeplearning.html">&lt;h2 id=&quot;线性代数&quot;&gt;线性代数&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-01T21:39:35+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">初涉反向传播</title><link href="http://localhost:4000/notes/Backpropagation.html" rel="alternate" type="text/html" title="初涉反向传播" /><published>2018-05-01T00:00:00+08:00</published><updated>2018-05-01T00:00:00+08:00</updated><id>http://localhost:4000/notes/Backpropagation</id><content type="html" xml:base="http://localhost:4000/notes/Backpropagation.html">&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
+
+&lt;p&gt;$W,b,x_{i}$都是作为$loss function$的变量，但是学习的过程中，要优化的是$W,b$ ，所以在反向传播算法中，我们计算的都是$W,b$的梯度。&lt;/p&gt;
+
+&lt;h2 id=&quot;计算图&quot;&gt;计算图&lt;/h2&gt;
+
+&lt;p&gt;一些简单的多元函数的偏导：
+&lt;script type=&quot;math/tex&quot;&gt;f(x,y)=xy \longrightarrow\frac{\partial f}{\partial x}=y,\frac{\partial f}{\partial y}=x
+\\
+f(x,y)=x+y\longrightarrow\frac{\partial f}{\partial x}=\frac{\partial f}{\partial y}=1
+\\
+f(x,y)=max(x,y)\longrightarrow\frac{\partial f}{\partial x}=\mathbb{I}(x\ge y),\frac{\partial f}{\partial y}=\mathbb{I}(y\ge x)&lt;/script&gt;
+$\mathbb{I}$是标识运算符，当括号内为真时，值为1，否则为0。&lt;/p&gt;
+
+&lt;h4 id=&quot;对复合函数求导&quot;&gt;对复合函数求导&lt;/h4&gt;
+
+&lt;p&gt;使用链式法则：
+&lt;script type=&quot;math/tex&quot;&gt;f(x,y,z)=(x+y)z,q=x+y
+\\
+f=qz,则\frac{\partial f}{\partial x}=\frac{\partial f}{\partial q}\frac{\partial q}{\partial x}=z\cdot1&lt;/script&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;dfdz&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dfdq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dfdx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dfdq&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dfdy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dfdq&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;各个gate的偏导依照链式法则相乘求得最终各变量的偏导。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;backpropagation is a beautifully local process&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;图中每个gate在接受到输入数据后可以马上进行两件事：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;计算当前gate的output&lt;/li&gt;
+  &lt;li&gt;计算各个变量对这个output的局部偏导&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;网路跑完前馈之后，反向传播过程便将数据流过路径的偏导相乘起来。&lt;/p&gt;
+
+&lt;h4 id=&quot;sigmoid-gate&quot;&gt;sigmoid gate&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sigma(x)=\frac{1}{1+e^{-x}}
+\\
+\frac{\partial \sigma(x)}{\partial x}=(1-\sigma(x))\sigma(x)(过程略)&lt;/script&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sigmoid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;math&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dsigdx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigmoid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigmoid&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;有时候变量会在多个复合函数之中，不要忘记在最后将他们相加&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;如：
+&lt;script type=&quot;math/tex&quot;&gt;f(x,y)=\frac{x+\sigma(y)}{\sigma(x)+(x+y)^{2}}&lt;/script&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sigy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;math&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigy&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sigx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;math&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;xpy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;xpysqr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xpy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;den&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xpysqr&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;invdev&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;den&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;invden&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#backpropagation&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dnum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;invden&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dinvden&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dden&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;den&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dinvden&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dsigx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dden&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dxpysqr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dden&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dxpy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dxpysqr&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dxpy&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dxpy&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dsigx&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnum&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dsigy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnum&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dsigy&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;一个隐性的问题&lt;/strong&gt;:如果一个很大的数与一个很小的数相乘时，根据乘法gate求导规则，很小的数对应的变量得到的梯度会很大，很大的数对应的变量得到的梯度会很小。比如在linear classifiers中，$w^{T}x_{i}$ 对于很大的输入，权重更新的梯度也会很大，则需要减小学习率来进行补偿。所以，需要在数据输入之前对其进行适当的预处理。&lt;/p&gt;</content><author><name>Metapunk</name></author><summary type="html">求谁的梯度？</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/thor.jpg" /></entry><entry><title type="html">没有银弹</title><link href="http://localhost:4000/thoughts/No-silver-bullet.html" rel="alternate" type="text/html" title="没有银弹" /><published>2018-04-30T00:00:00+08:00</published><updated>2018-04-30T00:00:00+08:00</updated><id>http://localhost:4000/thoughts/No-silver-bullet</id><content type="html" xml:base="http://localhost:4000/thoughts/No-silver-bullet.html">&lt;h1 id=&quot;no-silver-bullet&quot;&gt;No silver bullet.&lt;/h1&gt;</content><author><name>Metapunk</name></author><category term="thoughts" /><summary type="html">No silver bullet.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/cowboy-1.jpg" /></entry><entry><title type="html">深度学习预备知识(Part 1)</title><link href="http://localhost:4000/notes/Deeplearning.html" rel="alternate" type="text/html" title="深度学习预备知识(Part 1)" /><published>2018-04-29T00:00:00+08:00</published><updated>2018-04-29T00:00:00+08:00</updated><id>http://localhost:4000/notes/Deeplearning</id><content type="html" xml:base="http://localhost:4000/notes/Deeplearning.html">&lt;h2 id=&quot;线性代数&quot;&gt;线性代数&lt;/h2&gt;
 
 &lt;h4 id=&quot;向量的范数norm&quot;&gt;向量的&lt;strong&gt;范数&lt;/strong&gt;(norm)&lt;/h4&gt;
 

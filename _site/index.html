@@ -56,6 +56,33 @@
 {"url":"http://localhost:4000/","author":{"@type":"Person","name":"Takchatsau"},"name":"Metapunk","description":"a place where I write down my notes and thoughts.","@type":"WebSite","headline":"Home","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
 
 </head>
 
@@ -116,6 +143,16 @@
 
   <div class="posts-wrapper">
     
+
+<article>
+  <a href="/notes/Backpropagation.html">
+    <div class="featured-posts" style="background-image:url(/assets/img/thor.jpg)">
+      <h2><span>初涉反向传播</span></h2>
+    </div>
+  </a>
+</article>
+
+
 
 <article>
   <a href="/thoughts/No-silver-bullet.html">

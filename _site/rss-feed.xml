@@ -7,6 +7,21 @@
 		<atom:link href="/rss-feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>初涉反向传播</title>
+				
+					<dc:creator>Metapunk</dc:creator>
+				
+				
+					<description>&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
+
+</description>
+				
+				<pubDate>Tue, 01 May 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/notes/Backpropagation.html</link>
+				<guid isPermaLink="true">http://localhost:4000/notes/Backpropagation.html</guid>
+			</item>
+		
+			<item>
 				<title>没有银弹</title>
 				
 					<dc:creator>Metapunk</dc:creator>

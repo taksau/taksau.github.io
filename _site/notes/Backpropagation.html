@@ -1,0 +1,300 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      初涉反向传播 | Metapunk
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Metapunk" />
+  <!-- RSS-v2.0
+  <link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="Metapunk | a place where I write down my notes and thoughts."/>
+  //-->
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Source+Code+Pro">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'takchatsau', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>初涉反向传播 | Metapunk</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="初涉反向传播" />
+<meta name="author" content="Metapunk" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="求谁的梯度？" />
+<meta property="og:description" content="求谁的梯度？" />
+<link rel="canonical" href="http://localhost:4000/notes/Backpropagation.html" />
+<meta property="og:url" content="http://localhost:4000/notes/Backpropagation.html" />
+<meta property="og:site_name" content="Metapunk" />
+<meta property="og:image" content="http://localhost:4000/thor.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T00:00:00+08:00" />
+<script type="application/ld+json">
+{"datePublished":"2018-05-01T00:00:00+08:00","image":"http://localhost:4000/thor.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/Backpropagation.html"},"url":"http://localhost:4000/notes/Backpropagation.html","author":{"@type":"Person","name":"Metapunk"},"description":"求谁的梯度？","@type":"BlogPosting","headline":"初涉反向传播","dateModified":"2018-05-01T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+  <header class="site-header">
+  <h3 class="site-title">
+    <a href="/">Metapunk</a>
+  </h3>
+  <nav class="menu-list">
+    
+      <a href="/pages/notes.html" class="menu-link">Notes of my work</a>
+    
+      <a href="/pages/thoughts.html" class="menu-link">Thinking of my life</a>
+    
+      <a href="/pages/about.html" class="menu-link">About</a>
+    
+
+    
+      <a href="https://twitter.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    
+      <a href="https://www.facebook.com/chatsau.tak" class="menu-link" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    
+      <a href="https://instagram.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+    
+      <a href="mailto:takchatsau@gmail.com" class="menu-link" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    
+      <a href="feed.xml" class="menu-link" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+    
+  </nav>
+  <div class="dropdown">
+    <button class="dropbtn"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    <div class="dropdown-content">
+      
+        <a href="/pages/notes.html" class="menu-link">Notes of my work</a>
+      
+        <a href="/pages/thoughts.html" class="menu-link">Thinking of my life</a>
+      
+        <a href="/pages/about.html" class="menu-link">About</a>
+      
+
+      
+        <a href="https://twitter.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+      
+        <a href="https://www.facebook.com/chatsau.tak" class="menu-link" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+      
+        <a href="https://instagram.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+      
+        <a href="mailto:takchatsau@gmail.com" class="menu-link" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+      
+        <a href="feed.xml" class="menu-link" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+      
+    </div>
+  </div>
+</header>
+
+  <div class="posts-wrapper">
+    <div class="page-content">
+  <h1>
+    初涉反向传播
+  </h1>
+
+  <span class="post-date">
+    Written on
+    
+    May
+    1st
+      ,
+    2018
+    by
+    
+      Metapunk
+    
+  </span>
+
+  
+    <div class="featured-image">
+      <img src="/assets/img/thor.jpg">
+    </div>
+  
+
+  <article>
+    <h2 id="求谁的梯度">求谁的梯度？</h2>
+
+<p>$W,b,x_{i}$都是作为$loss function$的变量，但是学习的过程中，要优化的是$W,b$ ，所以在反向传播算法中，我们计算的都是$W,b$的梯度。</p>
+
+<h2 id="计算图">计算图</h2>
+
+<p>一些简单的多元函数的偏导：
+<script type="math/tex">f(x,y)=xy \longrightarrow\frac{\partial f}{\partial x}=y,\frac{\partial f}{\partial y}=x
+\\
+f(x,y)=x+y\longrightarrow\frac{\partial f}{\partial x}=\frac{\partial f}{\partial y}=1
+\\
+f(x,y)=max(x,y)\longrightarrow\frac{\partial f}{\partial x}=\mathbb{I}(x\ge y),\frac{\partial f}{\partial y}=\mathbb{I}(y\ge x)</script>
+$\mathbb{I}$是标识运算符，当括号内为真时，值为1，否则为0。</p>
+
+<h4 id="对复合函数求导">对复合函数求导</h4>
+
+<p>使用链式法则：
+<script type="math/tex">f(x,y,z)=(x+y)z,q=x+y
+\\
+f=qz,则\frac{\partial f}{\partial x}=\frac{\partial f}{\partial q}\frac{\partial q}{\partial x}=z\cdot1</script></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span><span class="n">y</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">q</span> <span class="o">*</span> <span class="n">z</span>
+
+<span class="n">dfdz</span> <span class="o">=</span> <span class="n">q</span>
+<span class="n">dfdq</span> <span class="o">=</span> <span class="n">z</span>
+<span class="n">dfdx</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">dfdq</span>
+<span class="n">dfdy</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">dfdq</span>
+</code></pre></div></div>
+
+<p>各个gate的偏导依照链式法则相乘求得最终各变量的偏导。</p>
+
+<p><em>backpropagation is a beautifully local process</em></p>
+
+<p>图中每个gate在接受到输入数据后可以马上进行两件事：</p>
+
+<ol>
+  <li>计算当前gate的output</li>
+  <li>计算各个变量对这个output的局部偏导</li>
+</ol>
+
+<p>网路跑完前馈之后，反向传播过程便将数据流过路径的偏导相乘起来。</p>
+
+<h4 id="sigmoid-gate">sigmoid gate</h4>
+
+<script type="math/tex; mode=display">\sigma(x)=\frac{1}{1+e^{-x}}
+\\
+\frac{\partial \sigma(x)}{\partial x}=(1-\sigma(x))\sigma(x)(过程略)</script>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sigmoid</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+<span class="n">dsigdx</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">sigmoid</span><span class="p">)</span><span class="o">*</span><span class="n">sigmoid</span>
+</code></pre></div></div>
+
+<p><strong>有时候变量会在多个复合函数之中，不要忘记在最后将他们相加</strong></p>
+
+<p>如：
+<script type="math/tex">f(x,y)=\frac{x+\sigma(y)}{\sigma(x)+(x+y)^{2}}</script></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sigy</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+<span class="n">num</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">sigy</span>
+<span class="n">sigx</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+<span class="n">xpy</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="n">xpysqr</span><span class="o">=</span><span class="n">xpy</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">den</span><span class="o">=</span><span class="n">sigx</span><span class="o">+</span><span class="n">xpysqr</span>
+<span class="n">invdev</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="n">den</span>
+<span class="n">f</span><span class="o">=</span><span class="n">num</span><span class="o">*</span><span class="n">invden</span>
+
+<span class="c">#backpropagation</span>
+<span class="n">dnum</span><span class="o">=</span><span class="n">invden</span>
+<span class="n">dinvden</span><span class="o">=</span><span class="n">num</span>
+<span class="n">dden</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">den</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">dinvden</span>
+<span class="n">dsigx</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">dden</span>
+<span class="n">dxpysqr</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">dden</span>
+<span class="n">dxpy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">xpy</span><span class="p">)</span><span class="o">*</span><span class="n">dxpysqr</span>
+<span class="n">dx</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">dxpy</span>
+<span class="n">dy</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">dxpy</span>
+<span class="n">dx</span><span class="o">+=</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">sigx</span><span class="p">)</span><span class="o">*</span><span class="n">sigx</span><span class="p">)</span><span class="o">*</span><span class="n">dsigx</span>
+<span class="n">dx</span><span class="o">+=</span><span class="mi">1</span><span class="o">*</span><span class="n">dnum</span>
+<span class="n">dsigy</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">dnum</span>
+<span class="n">dy</span><span class="o">+=</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">sigy</span><span class="p">)</span><span class="o">*</span><span class="n">sigy</span><span class="p">)</span><span class="o">*</span><span class="n">dsigy</span>
+</code></pre></div></div>
+
+<p><strong>一个隐性的问题</strong>:如果一个很大的数与一个很小的数相乘时，根据乘法gate求导规则，很小的数对应的变量得到的梯度会很大，很大的数对应的变量得到的梯度会很小。比如在linear classifiers中，$w^{T}x_{i}$ 对于很大的输入，权重更新的梯度也会很大，则需要减小学习率来进行补偿。所以，需要在数据输入之前对其进行适当的预处理。</p>
+
+  </article>
+
+  <div class="post-share">
+    <div class="post-date">Feel free to share!</div>
+    <div class="sharing-icons">
+      <a href="https://twitter.com/intent/tweet?text=初涉反向传播&amp;url=/notes/Backpropagation.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/notes/Backpropagation.html&amp;title=初涉反向传播" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+      <a href="https://plus.google.com/share?url=/notes/Backpropagation.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <div class="related">
+    <h2>You may also enjoy...</h2>
+    
+    <ul class="related-posts">
+      
+    </ul>
+  </div>
+
+  
+
+</div>
+
+  </div>
+  <footer class="footer">
+  
+    <a href="https://twitter.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+  
+    <a href="https://www.facebook.com/chatsau.tak" class="menu-link" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+  
+    <a href="https://instagram.com/takchatsau" class="menu-link" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+    <a href="mailto:takchatsau@gmail.com" class="menu-link" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+    <a href="feed.xml" class="menu-link" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+  <div class="post-date"><a href="/">Metapunk | a place where I write down my notes and thoughts. by Takchatsau</a></div>
+</footer>
+
+</div>
+
+</body>
+</html>
