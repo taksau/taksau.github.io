@@ -3,7 +3,7 @@ layout: post
 title: 初涉反向传播
 author: Metapunk
 categories: notes
-tags [notes]
+tags: [notes]
 image: thor.jpg
 ---
 
