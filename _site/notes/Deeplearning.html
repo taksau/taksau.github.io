@@ -308,12 +308,6 @@ Frobenius范数：
 <p>在深度学习的背景下，限制函数满足$Lipschitz$<strong>连续</strong>(Lipschitz continuous)或其导数$Lipschitz$连续可以获得一些保证。$Lipschitz$连续函数的变化速度以$Lipschitz$<strong>常数</strong>(Lipschitz constant) $\mathcal{L}$为界：
 <script type="math/tex">\forall x,\forall y,|f(x)-f(y)|\le \mathcal{L}||x-y||_{2}</script></p>
 
-<h3 id="约束优化">约束优化</h3>
-
-<p><strong>Karush-Kuhn-Tucker</strong>(KKT)方法是针对约束优化非常通用的解决方案。为介绍KKT方法，我们引入一个称为<strong>广义Lagrangian</strong>(generalized Lagrangian)。
-<script type="math/tex">\mathbb{S}=\{ x|\forall i,g^{(i)}(x)=0\ and \ \forall j,h^{(j)}(x)\le0\}</script>
-我们为每个约束引入新的变量$\lambda_{i}$ 和$\alpha_{j}$，这些新变量被称为KKT乘子。
-<script type="math/tex">L(x,\lambda,\alpha)=f(x)+\sum_{i}\lambda_{i}g^{(i)}(x)+\sum_{j}\alpha_{j}h^{(j)}(x)</script></p>
 
   </article>
 

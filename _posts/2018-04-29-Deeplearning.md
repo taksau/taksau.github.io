@@ -46,14 +46,6 @@ $$
 
 
 
-
-
-
-
-
-
-
-
 ### 特征分解
 
 方阵$A$的**特征向量** (eigenvector)是指与$A$相乘后相当于对该向量进行缩放的非零向量**v**：
@@ -198,13 +190,3 @@ $$
 \forall x,\forall y,|f(x)-f(y)|\le \mathcal{L}||x-y||_{2}
 $$
 
-### 约束优化
-
-**Karush-Kuhn-Tucker**(KKT)方法是针对约束优化非常通用的解决方案。为介绍KKT方法，我们引入一个称为**广义Lagrangian**(generalized Lagrangian)。
-$$
-\mathbb{S}=\{ x|\forall i,g^{(i)}(x)=0\ and \ \forall j,h^{(j)}(x)\le0\}
-$$
-我们为每个约束引入新的变量$\lambda_{i}$ 和$\alpha_{j}$，这些新变量被称为KKT乘子。
-$$
-L(x,\lambda,\alpha)=f(x)+\sum_{i}\lambda_{i}g^{(i)}(x)+\sum_{j}\alpha_{j}h^{(j)}(x)
-$$

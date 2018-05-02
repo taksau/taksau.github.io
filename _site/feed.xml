@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-01T23:05:24+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">初涉反向传播</title><link href="http://localhost:4000/notes/Backpropagation.html" rel="alternate" type="text/html" title="初涉反向传播" /><published>2018-05-01T00:00:00+08:00</published><updated>2018-05-01T00:00:00+08:00</updated><id>http://localhost:4000/notes/Backpropagation</id><content type="html" xml:base="http://localhost:4000/notes/Backpropagation.html">&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-02T10:07:20+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">初涉反向传播</title><link href="http://localhost:4000/notes/Backpropagation.html" rel="alternate" type="text/html" title="初涉反向传播" /><published>2018-05-01T00:00:00+08:00</published><updated>2018-05-01T00:00:00+08:00</updated><id>http://localhost:4000/notes/Backpropagation</id><content type="html" xml:base="http://localhost:4000/notes/Backpropagation.html">&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
 
 &lt;p&gt;$W,b,x_{i}$都是作为$loss function$的变量，但是学习的过程中，要优化的是$W,b$ ，所以在反向传播算法中，我们计算的都是$W,b$的梯度。&lt;/p&gt;
 
@@ -219,11 +219,4 @@ Frobenius范数：
 最坏的情况下，$g$与$H$最大特征值$\lambda _{max}$对应的特征向量对齐，则最优步长是$\frac{1}{\lambda _{max}}$。当我们要最小化的函数能用二次函数很好地近似的情况下，$Hessian$的特征值决定了学习率的量级。&lt;/p&gt;
 
 &lt;p&gt;在深度学习的背景下，限制函数满足$Lipschitz$&lt;strong&gt;连续&lt;/strong&gt;(Lipschitz continuous)或其导数$Lipschitz$连续可以获得一些保证。$Lipschitz$连续函数的变化速度以$Lipschitz$&lt;strong&gt;常数&lt;/strong&gt;(Lipschitz constant) $\mathcal{L}$为界：
-&lt;script type=&quot;math/tex&quot;&gt;\forall x,\forall y,|f(x)-f(y)|\le \mathcal{L}||x-y||_{2}&lt;/script&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;约束优化&quot;&gt;约束优化&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;Karush-Kuhn-Tucker&lt;/strong&gt;(KKT)方法是针对约束优化非常通用的解决方案。为介绍KKT方法，我们引入一个称为&lt;strong&gt;广义Lagrangian&lt;/strong&gt;(generalized Lagrangian)。
-&lt;script type=&quot;math/tex&quot;&gt;\mathbb{S}=\{ x|\forall i,g^{(i)}(x)=0\ and \ \forall j,h^{(j)}(x)\le0\}&lt;/script&gt;
-我们为每个约束引入新的变量$\lambda_{i}$ 和$\alpha_{j}$，这些新变量被称为KKT乘子。
-&lt;script type=&quot;math/tex&quot;&gt;L(x,\lambda,\alpha)=f(x)+\sum_{i}\lambda_{i}g^{(i)}(x)+\sum_{j}\alpha_{j}h^{(j)}(x)&lt;/script&gt;&lt;/p&gt;</content><author><name>Metapunk</name></author><category term="notes" /><summary type="html">线性代数</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/motoko-1.jpg" /></entry></feed>
+&lt;script type=&quot;math/tex&quot;&gt;\forall x,\forall y,|f(x)-f(y)|\le \mathcal{L}||x-y||_{2}&lt;/script&gt;&lt;/p&gt;</content><author><name>Metapunk</name></author><category term="notes" /><summary type="html">线性代数</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/motoko-1.jpg" /></entry></feed>
