@@ -7,6 +7,21 @@
 		<atom:link href="/rss-feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>向量、矩阵运算的求导</title>
+				
+					<dc:creator>Metapunk</dc:creator>
+				
+				
+					<description>&lt;h2 id=&quot;jacobian矩阵&quot;&gt;Jacobian矩阵&lt;/h2&gt;
+
+</description>
+				
+				<pubDate>Wed, 02 May 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/notes/Tensor-bp.html</link>
+				<guid isPermaLink="true">http://localhost:4000/notes/Tensor-bp.html</guid>
+			</item>
+		
+			<item>
 				<title>初涉反向传播</title>
 				
 					<dc:creator>Metapunk</dc:creator>

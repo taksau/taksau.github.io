@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-02T10:07:20+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">初涉反向传播</title><link href="http://localhost:4000/notes/Backpropagation.html" rel="alternate" type="text/html" title="初涉反向传播" /><published>2018-05-01T00:00:00+08:00</published><updated>2018-05-01T00:00:00+08:00</updated><id>http://localhost:4000/notes/Backpropagation</id><content type="html" xml:base="http://localhost:4000/notes/Backpropagation.html">&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-02T21:55:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">向量、矩阵运算的求导</title><link href="http://localhost:4000/notes/Tensor-bp.html" rel="alternate" type="text/html" title="向量、矩阵运算的求导" /><published>2018-05-02T00:00:00+08:00</published><updated>2018-05-02T00:00:00+08:00</updated><id>http://localhost:4000/notes/Tensor-bp</id><content type="html" xml:base="http://localhost:4000/notes/Tensor-bp.html">&lt;h2 id=&quot;jacobian矩阵&quot;&gt;Jacobian矩阵&lt;/h2&gt;
+
+&lt;p&gt;对于映射$f:\mathbb{R}^{N}\rightarrow\mathbb{R}^{M}$，对各个output求导会获得一个$M\times N$的偏微分矩阵：
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\frac{\partial y}{\partial x}=\left(\begin{matrix}
+\frac{\partial y_{1}}{\partial x_{1}} &amp; \cdots &amp; \frac{\partial y_{1}}{\partial x_{N}} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial y_{M}}{\partial x_{1}} &amp; \cdots &amp; \frac{\partial y_{M}}{\partial x_{N}}
+\end{matrix}\right) %]]&gt;&lt;/script&gt;
+于是显然可得，在线性分类器中，$\vec{y}=W\vec{x}$，x对y的偏导有简单结果：
+&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial \vec{y}_{i}}{\partial \vec{x}_{j}}=W_{i,j}
+\\
+即
+\\
+\frac{\partial \vec{y}}{\partial \vec{x}}=W&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;对矩阵相乘:&lt;/strong&gt;
+&lt;script type=&quot;math/tex&quot;&gt;Y=XW \\
+ Y_{i,j}=\sum^{D}_{k=1}X_{i,k}{W_{k,j}} \\
+ \frac{\partial Y_{i,j}}{\partial X_{i,k} }=W_{k,j}
+ \\
+ 则，\frac{\partial Y_{i,:}}{\partial X_{i,:} }=W，其余情况均为0。&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;链式法则&quot;&gt;链式法则：&lt;/h3&gt;
+
+&lt;p&gt;上述形式也能适用链式法则，对：&lt;/p&gt;
+
+&lt;p&gt;$\vec{y}=VW\vec{x}$，显然，$\frac{d\vec{y}}{d\vec{x}}=VW$。&lt;/p&gt;
+
+&lt;p&gt;定义中间变量：$\vec{m}=W\vec{x}$，则$\vec{y}=V\vec{m}$。&lt;/p&gt;
+
+&lt;p&gt;依照链式法则：
+&lt;script type=&quot;math/tex&quot;&gt;\frac{d\vec{y}}{d\vec{x}}=\frac{d\vec{y}}{d\vec{m}}\frac{d\vec{m}}{d\vec{x}}
+\\
+\frac{d\vec{y_{i}}}{d\vec{x_{j}}}=\frac{d\vec{y_{i}}}{d\vec{m}}\frac{d\vec{m}}{d\vec{x_{j}}}=\sum^{M}_{k=1}\frac{d\vec{y_{i}}}{d\vec{m_{k}}}\frac{d\vec{m_{k}}}{d\vec{x_{j}}}
+\\
+\frac{d\vec{y_{i}}}{d\vec{x_{j}}}=(VK)_{i,j}=\sum^{M}_{k=1}V_{i,k}W_{k,j}&lt;/script&gt;
+即对于矩阵或向量的复合函数求导，亦可以依照链式法则，将各中间变量的雅可比矩阵相乘得到最后的偏导。&lt;/p&gt;</content><author><name>Metapunk</name></author><category term="notes" /><summary type="html">Jacobian矩阵</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/neon.jpg" /></entry><entry><title type="html">初涉反向传播</title><link href="http://localhost:4000/notes/Backpropagation.html" rel="alternate" type="text/html" title="初涉反向传播" /><published>2018-05-01T00:00:00+08:00</published><updated>2018-05-01T00:00:00+08:00</updated><id>http://localhost:4000/notes/Backpropagation</id><content type="html" xml:base="http://localhost:4000/notes/Backpropagation.html">&lt;h2 id=&quot;求谁的梯度&quot;&gt;求谁的梯度？&lt;/h2&gt;
 
 &lt;p&gt;$W,b,x_{i}$都是作为$loss function$的变量，但是学习的过程中，要优化的是$W,b$ ，所以在反向传播算法中，我们计算的都是$W,b$的梯度。&lt;/p&gt;
 
