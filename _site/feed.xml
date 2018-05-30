@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-30T12:27:18+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">Some Supervised learning models</title><link href="http://localhost:4000/notes/Supervised-learning.html" rel="alternate" type="text/html" title="Some Supervised learning models" /><published>2018-05-27T00:00:00+08:00</published><updated>2018-05-27T00:00:00+08:00</updated><id>http://localhost:4000/notes/Supervised-learning</id><content type="html" xml:base="http://localhost:4000/notes/Supervised-learning.html">&lt;h2 id=&quot;监督学习supervised-learning的基本任务&quot;&gt;监督学习(Supervised learning)的基本任务&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-30T18:20:54+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">Some Supervised learning models</title><link href="http://localhost:4000/notes/Supervised-learning.html" rel="alternate" type="text/html" title="Some Supervised learning models" /><published>2018-05-27T00:00:00+08:00</published><updated>2018-05-27T00:00:00+08:00</updated><id>http://localhost:4000/notes/Supervised-learning</id><content type="html" xml:base="http://localhost:4000/notes/Supervised-learning.html">&lt;h2 id=&quot;监督学习supervised-learning的基本任务&quot;&gt;监督学习(Supervised learning)的基本任务&lt;/h2&gt;
 
 &lt;p&gt;监督学习的基本任务就是，对于给定的training set，需要训练出一个function h(被定义为hypothesis)，使得h(x)对y有较好的预测。&lt;/p&gt;
 
@@ -362,27 +362,8 @@ a(\eta)=\frac{\eta^{2}}{2\sigma^{2}} %]]&gt;&lt;/script&gt;
 &lt;h4 id=&quot;glm&quot;&gt;GLM:&lt;/h4&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;假设y&lt;/td&gt;
-          &lt;td&gt;x;θ 满足指数族分布&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;对给定x，输出目标为E[T(y)&lt;/td&gt;
-          &lt;td&gt;x]，所以拟合目标为h(x)=E[T(y)&lt;/td&gt;
-          &lt;td&gt;x]&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
+  &lt;li&gt;假设$y\vert x;θ$ 满足指数族分布&lt;/li&gt;
+  &lt;li&gt;对给定x，输出目标为$E[T(y)\vert x]$，所以拟合目标为$h(x)=E[T(y)\vert x]$&lt;/li&gt;
   &lt;li&gt;η是x的线性运算结果:&lt;/li&gt;
 &lt;/ul&gt;
 

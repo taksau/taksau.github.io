@@ -61,31 +61,31 @@
 
   <!-- mathjax config similar to math.stackexchange -->
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
+ <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+     tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       processEscapes: true
+     }
+   });
+ </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Queue(function() {
+         var all = MathJax.Hub.getAllJax(), i;
+         for(i=0; i < all.length; i += 1) {
+             all[i].SourceElement().parentNode.className += ' has-jax';
+         }
+     });
+ </script>
 </head>
 
 
@@ -532,27 +532,8 @@ a(\eta)=\frac{\eta^{2}}{2\sigma^{2}} %]]></script>
 <h4 id="glm">GLM:</h4>
 
 <ul>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>假设y</td>
-          <td>x;θ 满足指数族分布</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>对给定x，输出目标为E[T(y)</td>
-          <td>x]，所以拟合目标为h(x)=E[T(y)</td>
-          <td>x]</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li>假设$y\vert x;θ$ 满足指数族分布</li>
+  <li>对给定x，输出目标为$E[T(y)\vert x]$，所以拟合目标为$h(x)=E[T(y)\vert x]$</li>
   <li>η是x的线性运算结果:</li>
 </ul>
 
