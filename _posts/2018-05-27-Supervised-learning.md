@@ -590,8 +590,9 @@ e^{\eta_{i}}&=\frac{\phi_{i}}{\phi_{k}}\\
 \phi_{k}&=\frac{1}{\sum^{k}_{i=1}e^{\eta_{i}}}
 \end{align*}
 $$
-所以：
 
+
+所以：
 
 $$
 \begin{align*}
