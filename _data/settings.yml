@@ -10,9 +10,9 @@ menu:
 #- {name: 'Learning Resources', folder: 'pages', file: 'resources.html'}
 #- {name: 'Sample Posts', folder: 'pages', file: 'sample-posts.html'}
 #- {name: 'Documentation', folder: 'pages', file: 'documentation.html'}
-- {name: 'Notes of my work', folder: 'pages', file: 'notes.html'}
-- {name: 'Thinking of my life', folder: 'pages', file: 'thoughts.html'}
-- {name: 'About', folder: 'pages', file: 'about.html'}
+- {name: 'Machine learning notes', folder: 'pages', file: 'notes.html'}
+- {name: 'Philosophy notes', folder: 'pages', file: 'thoughts.html'}
+- {name: 'About Me', folder: 'pages', file: 'about.html'}
 #- {name: 'Contact', folder: 'pages', file: 'contact.html'}
 #- {name: '你好', folder: 'pages', file: 'hello.html'}
 

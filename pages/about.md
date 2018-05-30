@@ -3,4 +3,4 @@ layout: misc
 title: About
 ---
 
-Just a student in college.
+ML小白，半桶水哲学爱好者.

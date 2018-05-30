@@ -1,4 +1,464 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-02T21:55:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">向量、矩阵运算的求导</title><link href="http://localhost:4000/notes/Tensor-bp.html" rel="alternate" type="text/html" title="向量、矩阵运算的求导" /><published>2018-05-02T00:00:00+08:00</published><updated>2018-05-02T00:00:00+08:00</updated><id>http://localhost:4000/notes/Tensor-bp</id><content type="html" xml:base="http://localhost:4000/notes/Tensor-bp.html">&lt;h2 id=&quot;jacobian矩阵&quot;&gt;Jacobian矩阵&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-30T12:27:18+08:00</updated><id>http://localhost:4000/</id><title type="html">Metapunk</title><subtitle>a place where I write down my notes and thoughts.</subtitle><author><name>Takchatsau</name></author><entry><title type="html">Some Supervised learning models</title><link href="http://localhost:4000/notes/Supervised-learning.html" rel="alternate" type="text/html" title="Some Supervised learning models" /><published>2018-05-27T00:00:00+08:00</published><updated>2018-05-27T00:00:00+08:00</updated><id>http://localhost:4000/notes/Supervised-learning</id><content type="html" xml:base="http://localhost:4000/notes/Supervised-learning.html">&lt;h2 id=&quot;监督学习supervised-learning的基本任务&quot;&gt;监督学习(Supervised learning)的基本任务&lt;/h2&gt;
+
+&lt;p&gt;监督学习的基本任务就是，对于给定的training set，需要训练出一个function h(被定义为hypothesis)，使得h(x)对y有较好的预测。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ws1.sinaimg.cn/large/86223c22ly1frq7dwbd8nj20c208dmxx.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当y是连续的，这个学习任务被称为&lt;strong&gt;回归问题&lt;/strong&gt;。&lt;/li&gt;
+  &lt;li&gt;当y是离散且有限的，这个学习任务被称为&lt;strong&gt;分类问题&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;线性回归&quot;&gt;线性回归&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/500px-Linear_regression.svg.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;线性回归中hypothesis为一个线性函数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta_{0}+\sum^{n}_{i=1}\theta_{i}x_{i}&lt;/script&gt;
+
+&lt;p&gt;其中$\theta$是$h_{\theta}(x)$的参数，实现从x到y的线性映射，令$x_{0}=1$,则，$h_{\theta}(x)$变为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\sum^{n}_{i=0}\theta_{i}x_{i}=\theta^{T}x&lt;/script&gt;
+
+&lt;p&gt;为了衡量y和$h_{\theta}(x)$之间的误差，定义&lt;strong&gt;cost function&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta)=\frac{1}{2}\sum^{m}_{i=1}(h_{\theta}(x^{(i)})-y^{(i)})^{2}&lt;/script&gt;
+
+&lt;h4 id=&quot;lms-algorithm&quot;&gt;LMS algorithm&lt;/h4&gt;
+
+&lt;p&gt;利用梯度下降法更新参数来minimize$J(\theta)$。&lt;/p&gt;
+
+&lt;p&gt;对单个参数$\theta_{j}$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\theta_{j}:=\theta_{j}-\alpha\frac{\partial J(\theta)}{\partial \theta_{j}}
+\\
+\begin{align*}
+\frac{\partial J(\theta)}{\partial \theta_{j}} &amp;=\frac{1}{2}\frac{\partial }{\partial \theta_{j}}(h_{\theta}(x)-y)^{2}\\
+&amp;=(h_{\theta}(x)-y)\frac{\partial }{\partial \theta_{j}}(h_{\theta}(x)-y)\\
+&amp;=(h_{\theta}(x)-y)\frac{\partial }{\partial \theta_{j}}(\sum^{n}_{i=0}\theta_{i}x_{i}-y)\\
+&amp;=(h_{\theta}(x)-y)x_{j}\\
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;所以，对于单一样本：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_{j}:=\theta_{j}+\alpha(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}_{j}&lt;/script&gt;
+
+&lt;p&gt;对全体样本：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_{j}:=\theta_{j}+\alpha\sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}_{j}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;批梯度下降(batch gradient descent)：每次参数更新遍历全体样本。&lt;/li&gt;
+  &lt;li&gt;随机梯度下降(stochastic/incremental gradient descent)：每次参数更新只随机遍历一个样本。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/1600/1*PV-fcUsNlD9EgTIc61h-Ig.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;迹运算的性质&quot;&gt;迹运算的性质&lt;/h4&gt;
+
+&lt;p&gt;定义:
+&lt;script type=&quot;math/tex&quot;&gt;\sum^{m}_{i=1}A_{i,i}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;性质：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;trAB=trBA
+\\
+trABC=trCAB=trBCA
+\\
+\nabla_{A}trAB=B^{T}
+\\
+tr(a)=a
+\\
+\nabla_{A}trABA^{T}C=CAB+C^{T}AB^{T}&lt;/script&gt;
+
+&lt;p&gt;证明$\nabla_{A}trAB=B^{T}$ :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\frac{\partial trAB}{\partial A_{i,j}}&amp;=\frac{\partial \sum^{m}_{k=1}(AB)_{k,k}}{\partial A_{i,j}}
+\\
+&amp;=\frac{\partial (AB)_{i,i}}{\partial A_{i,j}}
+\\
+&amp;=\frac{\partial \sum^{m}_{l=1}A_{i,l}B_{l,i}}{\partial A_{i,j}}
+\\
+&amp;=\frac{\partial A_{i,j}B_{j,i}}{\partial A_{i,j}}
+\\
+&amp;=B_{j,i}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;所以$\nabla_{A}trAB=B^{T}$。&lt;/p&gt;
+
+&lt;p&gt;证明$\nabla_{A}trABA^{T}C=CAB+C^{T}AB^{T}$：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\nabla_{A}trABA^{T}C&amp;=\nabla_{A}tr\underbrace{AB}_{u(A)}\underbrace{A^{T}C}_{v(A^{T})}
+\\
+&amp;=\nabla_{A:u(A)}tr(u(A)v(A^{T}))+\nabla_{A:v(A^{T})}tr(u(A)v(A^{T}))
+\\
+&amp;=(v(A^{T}))^{T}\nabla_{A}u(A)+(\nabla_{A^{T}:v(A^{T})}tr(u(A)v(A^{T})))^{T}
+\\
+&amp;=C^{T}AB^{T}+((u(A))^{T}\nabla_{A^{T}}v(A^{T}))^{T}
+\\
+&amp;=C^{T}AB^{T}+(B^{T}A^{T}C^{T})^{T}
+\\
+&amp;=C^{T}AB^{T}+CAB
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;利用迹运算的性质推导jθ的梯度&quot;&gt;利用迹运算的性质推导J(θ)的梯度&lt;/h4&gt;
+
+&lt;p&gt;将training set写成如下形式：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X=\begin{bmatrix} (x^{(1)})^{T} \\ \vdots \\  (x^{(m)})^{T}
+\end{bmatrix}&lt;/script&gt;
+
+&lt;p&gt;m为training set数目。&lt;/p&gt;
+
+&lt;p&gt;则有：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X\theta=\begin{bmatrix}
+(x^{(1)})^{T}\theta \\ \vdots \\  (x^{(m)})^{T}\theta
+\end{bmatrix}
+=
+\begin{bmatrix}
+h_{\theta}(x^{(1)}) \\ \vdots \\  h_{\theta}(x^{(m)})
+\end{bmatrix}
+\\
+J(\theta)=\frac{1}{2}(X\theta-y)(X\theta-y)^{T}
+\\
+\nabla_{\theta}J(\theta)=\frac{1}{2}\nabla_{\theta}(\theta^{T}X^{T}X\theta-\theta^{T}X^{T}y-y^{T}X\theta+y^{T}y)&lt;/script&gt;
+
+&lt;p&gt;由于J(θ)为一个实数，则有：&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\nabla_{\theta}J(\theta)&amp;=\frac{1}{2}\nabla_{\theta}tr(\theta^{T}X^{T}X\theta-\theta^{T}X^{T}y-y^{T}X\theta+y^{T}y)
+\\
+&amp;=\frac{1}{2}\nabla_{\theta}tr(\theta\theta^{T}X^{T}X)-\nabla _{\theta}tr(y^{T}X\theta)
+\\
+\end{align*} %]]&gt;&lt;/script&gt;
+其中：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\nabla_{\theta}tr(\theta\theta^{T}X^{T}X)&amp;=\nabla_{\theta}tr(\underbrace{\theta}_{A}\underbrace{I}_{B}\underbrace{\theta^{T}}_{A^{T}}\underbrace{X^{T}X}_{C})
+\\
+&amp;=X^{T}X\theta I+X^{T}X\theta I
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;所以：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\nabla_{\theta}J(\theta)
+&amp;=\frac{1}{2}\nabla_{\theta}tr(\theta\theta^{T}X^{T}X)-\nabla _{\theta}tr(y^{T}X\theta)
+\\
+&amp;=X^{T}X\theta-X^{T}y
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;要使J(θ)达到最小，令$\nabla_{\theta}J(\theta)=0$，即得到normal equation：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X^{T}X\theta=X^{T}y&lt;/script&gt;
+
+&lt;p&gt;求解得：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta=(X^{T}X)^{-1}X^{T}y&lt;/script&gt;
+
+&lt;h4 id=&quot;lwrlocally-weighted-linear-regression&quot;&gt;LWR(Locally weighted linear regression)&lt;/h4&gt;
+
+&lt;p&gt;cost function变成了：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta)=\sum_{i}w^{(i)}(y^{(i)}-\theta^{T}x^{(i)})^{2}
+\\
+w^{(i)}=exp(-\frac{(x^{(i)}-x)^{2}}{2\tau^{2}})&lt;/script&gt;
+
+&lt;p&gt;$w^{(i)}$被称为权重(weights)，$\tau$被称为&lt;strong&gt;波长函数(bandwidth)&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;由于对于每一个x，都要重新计算一次weights，所以每求一个h(x)，θ也要再求一遍。&lt;/p&gt;
+
+&lt;h5 id=&quot;parametric-learning-algorithm--non-parametric-learning&quot;&gt;Parametric learning algorithm &amp;amp; Non-parametric learning&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;parametric learning algorithm：用若干个固定、有限的参数来拟合训练集的数据，训练完成后，只保存这些参数用于测试过程，而不会再参考训练集的数据。&lt;/li&gt;
+  &lt;li&gt;non-parametric learning algorithm：测试的过程需要利用训练集的数据进行计算，随着训练集数目的增长，hypothesis h的数目线性增长。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;用概率论解释jθ的意义&quot;&gt;用概率论解释J(θ)的意义&lt;/h4&gt;
+
+&lt;p&gt;在目标变量y和h(x)之间引入误差项：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y^{(i)}=\theta^{T}x^{(i)}+\epsilon^{(i)}&lt;/script&gt;
+
+&lt;p&gt;误差项符合均值为0的高斯分布：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\epsilon^{(i)}\thicksim \mathcal{N}(0,\sigma^{2})&lt;/script&gt;
+
+&lt;p&gt;则y的条件概率可以表示为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y^{(i)}| x^{(i)};\theta)=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^{T}x^{(i)})^{2}}{2\sigma^{2}})&lt;/script&gt;
+
+&lt;p&gt;由于对每个训练样本的误差项是独立同分布(IID)的，那么整个训练集的似然(likelihood)可以写成：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\theta)=\prod_{i=1}^{m}P(y^{(i)}| x^{(i)};\theta)&lt;/script&gt;
+
+&lt;p&gt;取对数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+l(\theta)=ln(L(\theta))&amp;=\sum^{m}_{i=1}lnP(y^{(i)}| x^{(i)};\theta)
+\\
+&amp;=-mln(\sqrt{2\pi}\sigma)-\frac{1}{2\sigma^{2}}\sum^{m}_{i=1}(y^{(i)}-\theta^{T}x^{(i)})^{2}
+\end{align*}
+\\
+so,maximize \ L(\theta) \ \iff \ minimize \ J(\theta)=\frac{1}{2}\sum^{m}_{i=1}(h_{\theta}(x^{(i)})-y^{(i)})^{2} %]]&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;逻辑回归logistic-regression&quot;&gt;逻辑回归(Logistic regression)&lt;/h3&gt;
+
+&lt;p&gt;y只取0和1两个值，h(x)输出y=1的概率值：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=g(\theta^{T}x)=\frac{1}{1+e^{-\theta^{T}x}}&lt;/script&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Sigmoid-function-2.svg/500px-Sigmoid-function-2.svg.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;g(z)的导数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\frac{dg(z)}{dz}&amp;=\frac{e^{-z}}{(1+e^{-z})^{2}}
+\\
+&amp;=\frac{1}{1+e^{-z}}(1-\frac{1}{1+e^{-z}}) 
+\\
+&amp;=g(z)(1-g(z))
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;假设：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y=1|x;\theta)=h_{\theta}(x)
+\\
+P(y=0|x;\theta)=1-h_{\theta}(x)&lt;/script&gt;
+
+&lt;p&gt;那么：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y|x;\theta)=(h_{\theta}(x))^{y}(1-h_{\theta}(x))^{1-y}&lt;/script&gt;
+
+&lt;p&gt;似然函数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+L(\theta)&amp;=\prod^{m}_{i=1}p(y^{(i)}|x^{(i)};\theta)
+\\
+&amp;=\prod^{m}_{i=1}(h_{\theta}(x^{(i)}))^{y^{(i)}}(1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}
+\end{align*}
+\\
+l(\theta)=ln(L(\theta))=\sum^{m}_{i=1}y^{(i)}lnh(x^{(i)})+(1-y^{(i)})ln(1-h(x^{(i)})) %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;求导：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\frac{\partial l(\theta)}{\partial\theta_{j}}&amp;=(y\frac{1}{g(\theta^{T}x)}-(1-y)\frac{1}{1-g(\theta^{T}x)})\frac{\partial g(\theta^{T}x)}{\partial \theta_{j}} 
+\\
+&amp;=(y\frac{1}{g(\theta^{T}x)}-(1-y)\frac{1}{1-g(\theta^{T}x)})g(\theta^{T}x)(1-g(\theta^{T}x))\frac{\partial \theta^{T}x}{\partial \theta_{j}} 
+\\
+&amp;=(y(1-g(\theta^{T}x))-(1-y)g(\theta^{T}x))x_{j}
+\\
+&amp;=(y-h_{\theta}(x))x_{j}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;所以梯度下降法的update rule为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_{j}:=\theta_{j}+\alpha\sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}_{j}&lt;/script&gt;
+
+&lt;h4 id=&quot;感知机算法the-perceptron-learning-algorithm&quot;&gt;感知机算法(The perceptron learning algorithm)&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+h_{\theta}(x)=g(\theta^{T}x)
+\\
+where \quad g(z)=\left\{\begin{matrix}1\quad if\ z\ge0\\0\quad if\ z&lt;0\end{matrix}
+\right. %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;其实，g(z)可由sigmoid函数取极限求得：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;g(z)=\lim_{\beta\rightarrow\infty}\sigma(\beta z)=\frac{1}{1+e^{-\beta z}}\\&lt;/script&gt;
+
+&lt;p&gt;所以：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+&amp;\quad\frac{\partial l(\theta)}{\partial\theta_{j}}\\
+&amp;=\lim_{\beta\rightarrow \infty}(y\frac{1}{\sigma(\theta^{T}\beta x)}-(1-y)\frac{1}{1-\sigma(\theta^{T}\beta x)})\sigma(\theta^{T}\beta x)(1-\sigma(\theta^{T}\beta x))\frac{\partial \theta^{T}\beta x}{\partial \theta_{j}} 
+\\
+&amp;=\lim_{\beta\rightarrow\infty}(y(1-\sigma(\theta^{T}\beta x))-(1-y)\sigma(\theta^{T}\beta x))\beta x_{j}
+\\
+&amp;=\lim_{\beta\rightarrow\infty}(y-h_{\theta}(x))\beta x_{j}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;令β&amp;gt;0，则向量$v_{j}=(y-h_{\theta}(x))x_{j}​$的方向与l(θ)梯度$\nabla_{\theta}l(\theta)​$的方向相同，所以感知机的update rule仍然可以写成：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_{j}:=\theta_{j}+\alpha\sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}_{j}&lt;/script&gt;
+
+&lt;h3 id=&quot;牛顿法求极值&quot;&gt;牛顿法求极值&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ecourses.ou.edu/ebook/math/ch03/sec034/media/dia03422.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;目标：f(θ)  find  θ  s.t.  f(θ)=0.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta:=\theta-\frac{f(\theta)}{f^{'}(\theta)}&lt;/script&gt;
+
+&lt;p&gt;对于l(θ)，其在最大值处的导数为0，所以update rule：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta:=\theta-\frac{l^{'}(\theta)}{l^{''}(\theta)}&lt;/script&gt;
+
+&lt;p&gt;写成矩阵形式：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta:=\theta-H^{-1}\nabla_{\theta}l(\theta)&lt;/script&gt;
+
+&lt;p&gt;H为Hessian矩阵：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;H_{i,j}=\frac{\partial^{2}l(\theta)}{\partial \theta_{i}\partial\theta_{j}}&lt;/script&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;u&gt;Newton method虽然收敛得很快，但面对数目较大的训练集，需要计算一个很大的Hessian 矩阵并求逆，反而降低了更新的速度。&lt;/u&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;广义线性模型generalized-linear-models&quot;&gt;广义线性模型(Generalized Linear Models)&lt;/h3&gt;
+
+&lt;h4 id=&quot;指数分布族the-exponential-family&quot;&gt;指数分布族(The exponential family)&lt;/h4&gt;
+
+&lt;p&gt;分布函数具有以下形式：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y;\eta)=b(y)exp(\eta^{T}T(y)-a(\eta))&lt;/script&gt;
+
+&lt;p&gt;其中，η被称为自然参数(natural parameter)，T(y)被称为充分统计量(sufficient statistic，一般T(y)=y)，a(η)为log partition function，使得分布函数的积分为1。&lt;/p&gt;
+
+&lt;h5 id=&quot;bernoulli分布&quot;&gt;Bernoulli分布：&lt;/h5&gt;
+
+&lt;p&gt;对Ber(Φ)：P(y=1;Φ)=Φ，P(y=0;Φ)=1-Φ，则：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+P(y;\phi)&amp;=\phi^{y}(1-\phi)^{(1-y)}
+\\
+&amp;=exp[yln\phi+(1-y)ln(1-\phi)]
+\\
+&amp;=exp[\underbrace{y}_{T(y)}\underbrace{ln\frac{\phi}{1-\phi}}_{\eta}+\underbrace{ln(1-\phi)}_{a(\eta)}]
+\end{align*}
+\\
+\eta=ln\frac{\phi}{1-\phi}\ \Longrightarrow \ \phi=\frac{1}{1+e^{-\eta}}
+\\
+a(\eta)=-ln(1-\phi)=ln(1+e^{-\eta}) %]]&gt;&lt;/script&gt;
+
+&lt;h5 id=&quot;gaussian分布&quot;&gt;Gaussian分布：&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+p(y;\mu,\sigma^{2})&amp;=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y-\mu)^{2}}{2\sigma^{2}})
+\\
+&amp;=\underbrace{\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{y^{2}}{2\sigma^{2}})}_{b(y)}exp(\underbrace{\mu}_{\eta}\underbrace{\frac{y}{\sigma^{2}}}_{T(y)}-\underbrace{\frac{\mu^{2}}{2\sigma^{2}}}_{a(\eta)})
+\end{align*}
+\\
+a(\eta)=\frac{\eta^{2}}{2\sigma^{2}} %]]&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;glm&quot;&gt;GLM:&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;假设y&lt;/td&gt;
+          &lt;td&gt;x;θ 满足指数族分布&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;对给定x，输出目标为E[T(y)&lt;/td&gt;
+          &lt;td&gt;x]，所以拟合目标为h(x)=E[T(y)&lt;/td&gt;
+          &lt;td&gt;x]&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+  &lt;li&gt;η是x的线性运算结果:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\eta=\theta^{T}x(\eta_{i}=\theta_{i}^{T}x , if \ \eta\in\mathbb{R}^{k})&lt;/script&gt;
+
+&lt;p&gt;&lt;em&gt;对于二分类问题&lt;/em&gt;：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=E[y|x;\theta]=P(y=1|x;\theta)=\phi=\frac{1}{1+e^{-\eta}}=\frac{1}{1+e^{-\theta^{T}x}}&lt;/script&gt;
+
+&lt;h4 id=&quot;softmax-regression&quot;&gt;Softmax Regression&lt;/h4&gt;
+
+&lt;p&gt;对于多分类问题，$y\in {1,\dots,k}$，则可以让GLM输出k-1个参数：$\phi_{1}\dots\phi_{k-1}$，另外$\phi_{k}=1-\sum^{k-1}&lt;em&gt;{i=1}\phi&lt;/em&gt;{i}$，同样令$P(y=i)=\phi_{i}$，y的分布为多项式分布，为了让其能表达成指数分布族的形式，将T(y)写成向量形式：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;T(1)=\begin{bmatrix}1\\0\\0\\\vdots\\0\end{bmatrix},\dots,T(k-1)=\begin{bmatrix}0\\0\\0\\\vdots\\1\end{bmatrix},
+\dots,T(k)=\begin{bmatrix}0\\0\\0\\\vdots\\0\end{bmatrix}\\
+T(y)\in\mathbb{R}^{k-1}&lt;/script&gt;
+
+&lt;p&gt;引入符号1{.}(1{True}=1,1{False}=0),则：&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;(T(y)){i}=1{y=i},E[(T(y)){i}]=P(y=i)=\phi_{i}&lt;/script&gt;
+证明p(y;Φ)可写成指数分布族的形式：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+p(y;\phi)&amp;=\prod^{k}_{i=1}\phi_{i}^{1\{y=i\}}\\
+&amp;=\phi_{k}^{1-\sum^{k-1}_{l=1}(T(y))_{l}}\prod^{k-1}_{i=1}\phi_{i}^{(T(y))_{i}}\\
+&amp;=exp[\sum^{k-1}_{i=1}(T(y))_{i}ln(\phi_{i})+(1-\sum^{k-1}_{l=1}(T(y))_{l})ln(\phi_{k})]\\
+&amp;=exp[\sum^{k-1}_{i=1}(T(y))_{i}ln(\frac{\phi_{i}}{\phi_{k}})+ln(\phi_{k})]\\
+&amp;=b(y)exp[\eta^{T}T(y)-a(\eta)]
+\end{align*}
+\\
+\quad \\
+\quad \\
+where\quad\eta_{i}=ln(\frac{\phi_{i}}{\phi_{k}}),a(\eta)=-ln(\phi_{k}),b(y=1) %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;然后：&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+e^{\eta_{i}}&amp;=\frac{\phi_{i}}{\phi_{k}}\\
+\phi_{k}e^{\eta_{i}}&amp;=\phi_{i}\\
+\phi_{k}\sum^{k}_{i=1}e^{\eta_{i}}&amp;=\sum^{k}_{i=1}\phi_{i}=1\\
+\phi_{k}&amp;=\frac{1}{\sum^{k}_{i=1}e^{\eta_{i}}}
+\end{align*} %]]&gt;&lt;/script&gt;
+所以：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+p(y=i|x;\theta)&amp;=\phi_{i}\\
+&amp;=\frac{e^{\eta_{i}}}{\sum^{k}_{j=1}e^{\eta_{j}}}\\
+&amp;=\frac{e^{\theta^{T}_{i}x}}{\sum^{k}_{j=1}e^{\theta_{j}^{T}x}}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;h(x)表示y=i的概率，所以：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+h_{\theta}(x)&amp;=E[T(y)|x;\theta]\\
+&amp;=E\begin{bmatrix}\begin{matrix}1\{y=1\}\\\vdots\\1\{y=k-1\}\end{matrix}\Bigg | x;\theta\end{bmatrix}\\
+&amp;=\begin{bmatrix}\phi_{i}\\\vdots\\\phi_{k-1}\end{bmatrix}\\
+&amp;=\begin{bmatrix}\frac{exp(\theta_{1}^{T}x)}{\sum^{k}_{j=1}exp(\theta^{T}_{j}x)}\\\vdots\\\frac{exp(\theta_{k-1}^{T}x)}{\sum^{k}_{j=1}exp(\theta^{T}_{j}x)}\end{bmatrix}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;而：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=k|x;\theta)=\phi_{k}=1-\sum^{k-1}_{i=1}\phi_{i}&lt;/script&gt;
+
+&lt;p&gt;似然函数l(θ)：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+l(\theta)&amp;=\sum^{m}_{i=1}logp(y^{(i)}|x^{(i)};\theta)\\
+&amp;=\sum^{m}_{i=1}log\prod^{k}_{l=1}\begin{pmatrix}\frac{e^{\theta_{l}^{T}x^{(i)}}}{\sum^{k}_{i=1}e^{\theta_{j}^{T}x^{(i)}}}\end{pmatrix}^{1\{y^{(i)}=l\}}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;然后，可用梯度上升或者牛顿法来求得θ，使得似然函数l(θ)取得极大值。&lt;/p&gt;</content><author><name>Takchatsau</name></author><category term="notes" /><summary type="html">监督学习(Supervised learning)的基本任务</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/cybercity-1.jpg" /></entry><entry><title type="html">向量、矩阵运算的求导</title><link href="http://localhost:4000/notes/Tensor-bp.html" rel="alternate" type="text/html" title="向量、矩阵运算的求导" /><published>2018-05-02T00:00:00+08:00</published><updated>2018-05-02T00:00:00+08:00</updated><id>http://localhost:4000/notes/Tensor-bp</id><content type="html" xml:base="http://localhost:4000/notes/Tensor-bp.html">&lt;h2 id=&quot;jacobian矩阵&quot;&gt;Jacobian矩阵&lt;/h2&gt;
 
 &lt;p&gt;对于映射$f:\mathbb{R}^{N}\rightarrow\mathbb{R}^{M}$，对各个output求导会获得一个$M\times N$的偏微分矩阵：
 &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
